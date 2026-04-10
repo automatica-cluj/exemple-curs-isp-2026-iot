@@ -1,0 +1,6 @@
+# Arduino build artifacts
+build/
+*.bin
+*.elf
+*.map
+*.merged.bin

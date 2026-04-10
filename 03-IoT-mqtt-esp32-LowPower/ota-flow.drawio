@@ -1,0 +1,173 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
+  <diagram id="ota-flow" name="OTA Update Flow">
+    <mxGraphModel dx="1299" dy="960" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;fontColor=#333333;" value="OTA Firmware Update Flow" vertex="1">
+          <mxGeometry height="40" width="400" x="500" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-user" parent="1" style="shape=mxgraph.basic.rect;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;rounded=1;arcSize=8;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#7a6520;" value="User / Browser" vertex="1">
+          <mxGeometry height="780" width="200" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-dashboard" parent="1" style="shape=mxgraph.basic.rect;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;rounded=1;arcSize=8;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#336633;" value="Spring Boot Dashboard" vertex="1">
+          <mxGeometry height="780" width="280" x="300" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-mqtt" parent="1" style="shape=mxgraph.basic.rect;fillColor=#e1d5e7;strokeColor=#9673a6;strokeWidth=2;rounded=1;arcSize=8;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#5e4475;" value="MQTT Broker (Mosquitto)" vertex="1">
+          <mxGeometry height="780" width="240" x="640" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="lane-esp32" parent="1" style="shape=mxgraph.basic.rect;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2;rounded=1;arcSize=8;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=13;fontStyle=1;fontColor=#2a5a8c;" value="ESP32-C3 Device" vertex="1">
+          <mxGeometry height="780" width="280" x="940" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="step1-user" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" value="&lt;b&gt;1.&lt;/b&gt; Upload .bin file&lt;br&gt;via dashboard UI" vertex="1">
+          <mxGeometry height="50" width="150" x="65" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow1" edge="1" parent="1" source="step1-user" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=10;fontColor=#666666;" target="step1-dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow1-label" connectable="0" parent="arrow1" style="edgeLabel;html=1;fontSize=9;fontColor=#888888;align=center;" value="POST /api/firmware/upload" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step1-dash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" value="&lt;b&gt;FirmwareService&lt;/b&gt;&lt;br&gt;store(file) &amp;rarr;&lt;br&gt;saves firmware.bin to disk" vertex="1">
+          <mxGeometry height="60" width="230" x="325" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="step2-user" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=center;" value="&lt;b&gt;2.&lt;/b&gt; Click &amp;quot;Update FW&amp;quot;&lt;br&gt;on device card" vertex="1">
+          <mxGeometry height="50" width="150" x="65" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2" edge="1" parent="1" source="step2-user" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=10;" target="step2-dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2-label" connectable="0" parent="arrow2" style="edgeLabel;html=1;fontSize=9;fontColor=#888888;align=center;" value="POST /api/firmware/deploy/{id}" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step2-dash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" value="&lt;b&gt;FirmwareController&lt;/b&gt;&lt;br&gt;deploy(deviceId)&lt;br&gt;looks up device MAC" vertex="1">
+          <mxGeometry height="55" width="230" x="325" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="step3-dash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" value="&lt;b&gt;3.&lt;/b&gt; Publish OTA command&lt;br&gt;to MQTT topic" vertex="1">
+          <mxGeometry height="50" width="210" x="340" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow3" edge="1" parent="1" source="step3-dash" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#9673a6;strokeWidth=2;fontSize=10;" target="step3-mqtt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow3-label" connectable="0" parent="arrow3" style="edgeLabel;html=1;fontSize=9;fontColor=#888888;align=center;" value="&lt;code&gt;devices/{MAC}/ota&lt;/code&gt;&lt;br&gt;payload: firmware URL" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step3-mqtt" parent="1" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;size=15;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" value="Route message&lt;br&gt;to subscriber" vertex="1">
+          <mxGeometry height="55" width="150" x="685" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow3b" edge="1" parent="1" source="step3-mqtt" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=2;fontSize=10;" target="step4-esp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2b" edge="1" parent="1" source="step2-dash" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#82b366;strokeWidth=1;dashed=1;" target="step3-dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step4-esp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" value="&lt;b&gt;4.&lt;/b&gt; Receive OTA command&lt;br&gt;in MQTT callback" vertex="1">
+          <mxGeometry height="55" width="210" x="975" y="315" as="geometry" />
+        </mxCell>
+        <mxCell id="step5-esp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" value="&lt;b&gt;5.&lt;/b&gt; Publish status&lt;br&gt;&lt;code&gt;ota_status = &amp;quot;downloading&amp;quot;&lt;/code&gt;" vertex="1">
+          <mxGeometry height="50" width="210" x="975" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow4" edge="1" parent="1" source="step4-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;" target="step5-esp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow5-mqtt" edge="1" parent="1" source="step5-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#9673a6;strokeWidth=1;dashed=1;fontSize=9;" target="step5-mqttbox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step5-mqttbox" parent="1" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;size=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" value="&lt;code&gt;devices/{MAC}/&lt;br&gt;ota_status&lt;/code&gt;" vertex="1">
+          <mxGeometry height="50" width="120" x="700" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="step6-esp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" value="&lt;b&gt;6.&lt;/b&gt; HTTP GET firmware.bin&lt;br&gt;&lt;code&gt;httpUpdate.update(url)&lt;/code&gt;" vertex="1">
+          <mxGeometry height="50" width="210" x="975" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow5b" edge="1" parent="1" source="step5-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;" target="step6-esp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow6-http" edge="1" parent="1" source="step6-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#cc0000;strokeWidth=2;fontSize=10;" target="step6-dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow6-label" connectable="0" parent="arrow6-http" style="edgeLabel;html=1;fontSize=9;fontColor=#cc0000;align=center;fontStyle=1;" value="HTTP GET /api/firmware/latest&lt;br&gt;(bypasses MQTT - direct download)" vertex="1">
+          <mxGeometry relative="1" x="0.05" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step6-dash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" value="&lt;b&gt;FirmwareController&lt;/b&gt;&lt;br&gt;GET /api/firmware/latest&lt;br&gt;serves .bin as octet-stream&lt;br&gt;&lt;font color=&quot;#888&quot; style=&quot;font-size:9px&quot;&gt;Content-Length header required&lt;/font&gt;" vertex="1">
+          <mxGeometry height="70" width="230" x="325" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="step7-esp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" value="&lt;b&gt;7.&lt;/b&gt; Write firmware to&lt;br&gt;&lt;b&gt;inactive partition&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="210" x="975" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow7" edge="1" parent="1" source="step6-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;" target="step7-esp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="partition-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;strokeWidth=1;dashed=1;fontSize=10;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;A/B Flash Partitions&lt;/b&gt;" vertex="1">
+          <mxGeometry height="130" width="180" x="1200" y="575" as="geometry" />
+        </mxCell>
+        <mxCell id="part-a" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=center;fontStyle=1;" value="OTA0 (Active)&lt;br&gt;&lt;font style=&quot;font-size:9px&quot; color=&quot;#555&quot;&gt;Running firmware&lt;/font&gt;" vertex="1">
+          <mxGeometry height="35" width="160" x="1210" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="part-b" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=center;fontStyle=1;" value="OTA1 (Inactive)&lt;br&gt;&lt;font style=&quot;font-size:9px&quot; color=&quot;#555&quot;&gt;New firmware written here&lt;/font&gt;" vertex="1">
+          <mxGeometry height="35" width="160" x="1210" y="645" as="geometry" />
+        </mxCell>
+        <mxCell id="part-arrow" edge="1" parent="1" source="step7-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#d6b656;strokeWidth=2;fontSize=9;entryX=1;entryY=0.5;exitX=1;exitY=0.5;" target="part-b">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1195" y="615" />
+              <mxPoint x="1195" y="663" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="part-label" parent="1" style="text;html=1;fontSize=9;fontColor=#888888;align=center;" value="&lt;font color=&quot;#82b366&quot;&gt;Never overwritten&lt;br&gt;while running&lt;/font&gt;" vertex="1">
+          <mxGeometry height="25" width="160" x="1210" y="685" as="geometry" />
+        </mxCell>
+        <mxCell id="step8-esp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;align=center;fontStyle=1;" value="&lt;b&gt;8.&lt;/b&gt; Verify checksum&lt;br&gt;&amp;amp; REBOOT" vertex="1">
+          <mxGeometry height="50" width="210" x="975" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow8" edge="1" parent="1" source="step7-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;" target="step8-esp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step9-esp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=center;" value="&lt;b&gt;9.&lt;/b&gt; Reconnect to MQTT&lt;br&gt;Publish new &lt;code&gt;firmware_version&lt;/code&gt;&lt;br&gt;&lt;font color=&quot;#888&quot; style=&quot;font-size:9px&quot;&gt;(uptime resets to 0)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="60" width="210" x="975" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow9" edge="1" parent="1" source="step8-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;" target="step9-esp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow9-mqtt" edge="1" parent="1" source="step9-esp" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#9673a6;strokeWidth=2;fontSize=9;" target="step9-mqttbox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step9-mqttbox" parent="1" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;size=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" value="&lt;code&gt;devices/{MAC}/&lt;br&gt;firmware_version&lt;/code&gt;" vertex="1">
+          <mxGeometry height="50" width="130" x="695" y="775" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow10" edge="1" parent="1" source="step9-mqttbox" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jetSize=auto;html=1;strokeColor=#82b366;strokeWidth=2;fontSize=9;" target="step10-dash">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="step10-dash" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=center;" value="&lt;b&gt;10.&lt;/b&gt; Dashboard detects&lt;br&gt;updated FW version &amp;amp;&lt;br&gt;reset uptime = &lt;b&gt;SUCCESS&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="230" x="325" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-box" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=10;align=left;spacingLeft=10;verticalAlign=top;" value="&lt;b&gt;Legend&lt;/b&gt;" vertex="1">
+          <mxGeometry height="120" width="200" x="40" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-mqtt" parent="1" style="text;html=1;fontSize=9;align=left;fontColor=#9673a6;fontStyle=1;" value="▬▬ MQTT messages" vertex="1">
+          <mxGeometry height="20" width="170" x="55" y="745" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-http" parent="1" style="text;html=1;fontSize=9;align=left;fontColor=#cc0000;fontStyle=1;" value="▬▬ HTTP direct download" vertex="1">
+          <mxGeometry height="20" width="170" x="55" y="765" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-flow" parent="1" style="text;html=1;fontSize=9;align=left;fontColor=#6c8ebf;fontStyle=1;" value="- - - Internal flow (on device)" vertex="1">
+          <mxGeometry height="20" width="170" x="55" y="785" as="geometry" />
+        </mxCell>
+        <mxCell id="legend-note" parent="1" style="text;html=1;fontSize=9;align=left;fontColor=#888888;" value="MQTT = command channel only&lt;br&gt;HTTP = data channel (binary)" vertex="1">
+          <mxGeometry height="30" width="170" x="55" y="805" as="geometry" />
+        </mxCell>
+        <mxCell id="callout" parent="1" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;size=20;position=0.5;base=20;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=center;" value="&lt;b&gt;Why MQTT + HTTP?&lt;/b&gt;&lt;br&gt;MQTT limit ~256KB&lt;br&gt;Firmware is 1-2MB&lt;br&gt;MQTT = command channel&lt;br&gt;HTTP = data channel" vertex="1">
+          <mxGeometry height="100" width="180" x="325" y="600" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

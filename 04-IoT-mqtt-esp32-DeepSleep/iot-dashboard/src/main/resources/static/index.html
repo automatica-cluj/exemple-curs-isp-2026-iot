@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Dashboard — Deep Sleep</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>IoT Device Dashboard</h1>
+        <p class="subtitle">ESP32 Deep Sleep Sensor Monitor</p>
+    </header>
+
+    <main>
+        <div id="status-bar">
+            <span id="device-count">0 devices</span>
+            <span id="last-refresh">Refreshing...</span>
+        </div>
+
+        <div id="devices-grid">
+            <p class="placeholder">Waiting for devices to report...</p>
+        </div>
+    </main>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
