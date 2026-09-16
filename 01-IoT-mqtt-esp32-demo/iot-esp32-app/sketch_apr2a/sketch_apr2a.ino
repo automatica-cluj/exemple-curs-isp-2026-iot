@@ -3,8 +3,8 @@
 
 // ---- UPDATE THESE ----
 // Double check if you are usiung mobile hotspot if it is set to 2.4 GHz, otherways will not connect!
-const char* ssid = "CHANGE";
-const char* password = "CHANGE";
+const char* ssid = "EvoN";
+const char* password = "opelastra";
 const char* mqtt_server = "control.aut.utcluj.ro";
 const int mqtt_port = 11188;
 // ----------------------
